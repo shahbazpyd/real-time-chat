@@ -39,7 +39,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'chat', # Our new chat application
     'rest_framework', # Add Django REST Framework
-    'corsheaders'
+    'corsheaders',
+    'channels', # Add Django Channels
 ]
 
 MIDDLEWARE = [
@@ -70,7 +71,8 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'backend.wsgi.application'
+# Point to the Channels routing configuration
+ASGI_APPLICATION = 'backend.asgi.application'
 
 
 # Database
