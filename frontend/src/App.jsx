@@ -1,31 +1,50 @@
 import { useState, useEffect } from 'react';
 import './App.css';
+import Login from './components/Login';
+import ChatRoomList from './components/ChatRoomList';
+import ChatView from './components/ChatView';
 
 function App() {
-  // 1. STATE: Create a state variable to hold our chat rooms.
-  // 'rooms' is the current value, 'setRooms' is the function to update it.
+  const [user, setUser] = useState(null); // Is the user logged in?
   const [rooms, setRooms] = useState([]);
+  const [selectedRoom, setSelectedRoom] = useState(null); // Which room is selected?
 
-  // 2. EFFECT: This will run once when the component first loads.
   useEffect(() => {
-    // Define an async function inside the effect to fetch data.
-    const fetchRooms = async () => {
-      const response = await fetch('http://127.0.0.1:8000/api/chat/rooms/');
-      const data = await response.json();
-      setRooms(data); // Update our state with the fetched rooms
-    };
+    // Only fetch rooms if the user is logged in
+    if (user) {
+      const fetchRooms = async () => {
+        try {
+          const response = await fetch('http://127.0.0.1:8000/api/chat/rooms/');
+          const data = await response.json();
+          setRooms(data);
+        } catch (error) {
+          console.error("Failed to fetch rooms:", error);
+        }
+      };
 
-    fetchRooms();
-  }, []); // The empty array [] means this effect runs only once.
+      fetchRooms();
+    }
+  }, [user]); // Re-run this effect when the 'user' state changes.
+
+  const handleLogin = (username) => setUser(username);
+  const handleSelectRoom = (room) => setSelectedRoom(room);
 
   return (
-    <div>
+    <div className="app-container">
       <h1>Real-time Chat</h1>
-      <h2>Chat Rooms</h2>
-      <ul>
-        {/* 3. RENDER: Map over the rooms in our state and display them. */}
-        {rooms.map(room => <li key={room.id}>{room.name}</li>)}
-      </ul>
+      {!user ? (
+        <Login onLogin={handleLogin} />
+      ) : (
+        <div className="chat-container">
+          <h2>Welcome, {user}!</h2>
+          <div className="main-layout">
+            <ChatRoomList rooms={rooms} onSelectRoom={handleSelectRoom} />
+            {selectedRoom && (
+              <ChatView room={selectedRoom} user={user} />
+            )}
+          </div>
+        </div>
+      )}
     </div>
   );
 }

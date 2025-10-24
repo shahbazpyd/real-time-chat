@@ -1,0 +1,53 @@
+.app-container {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.main-layout {
+  display: flex;
+  gap: 20px;
+  margin-top: 20px;
+}
+
+.room-list {
+  width: 250px;
+  border-right: 1px solid #444;
+  padding-right: 20px;
+}
+
+.room-list ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.room-list li button {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 5px;
+  background-color: #4a4a4a;
+  color: white;
+  border: none;
+  cursor: pointer;
+  text-align: left;
+}
+
+.room-list li button:hover {
+  background-color: #5a5a5a;
+}
+
+.chat-view {
+  flex-grow: 1;
+}
+
+.message-list {
+  height: 400px;
+  overflow-y: auto;
+  border: 1px solid #444;
+  padding: 10px;
+  margin-bottom: 10px;
+}
+
+.message {
+  margin-bottom: 5px;
+}
