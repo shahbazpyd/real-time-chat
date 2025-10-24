@@ -31,6 +31,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'daphne', # Add daphne for runserver
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -71,7 +72,8 @@ TEMPLATES = [
     },
 ]
 
-# Point to the Channels routing configuration
+# WSGI_APPLICATION = 'backend.wsgi.application' # Comment this out
+
 ASGI_APPLICATION = 'backend.asgi.application'
 
 
