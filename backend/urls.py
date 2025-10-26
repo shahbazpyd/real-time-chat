@@ -16,8 +16,18 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from rest_framework_simplejwt.views import (
+    TokenObtainPairView,
+    TokenRefreshView,
+)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    # JWT Token Endpoints
+    # POST to /api/token/ with username and password to get an access and refresh token.
+    path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
+    # POST to /api/token/refresh/ with refresh token to get a new access token.
+    path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
+
     path('api/chat/', include('chat.urls')), # Include our chat app's URLs
 ]

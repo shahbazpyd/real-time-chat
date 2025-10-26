@@ -3,6 +3,23 @@ from django.shortcuts import get_object_or_404
 from .models import ChatRoom, Message
 from .serializers import ChatRoomSerializer, MessageSerializer
 
+# backend/chat/views.py
+
+from django.contrib.auth.models import User
+from rest_framework import generics
+from rest_framework.permissions import AllowAny
+from .serializers import UserSerializer
+
+# CreateAPIView provides a post method handler for creating a model instance.
+class RegisterView(generics.CreateAPIView):
+    """
+    API endpoint that allows users to be created.
+    """
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+    # AllowAny means any user, authenticated or not, can access this endpoint.
+    permission_classes = [AllowAny]
+
 
 class ChatRoomList(generics.ListAPIView):
     """
