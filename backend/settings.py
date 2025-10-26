@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'chat', # Our new chat application
     'rest_framework', # Add Django REST Framework
+    'rest_framework_simplejwt', # Add this for JWT authentication
     'corsheaders',
     'channels', # Add Django Channels
 ]

@@ -27,6 +27,8 @@ class ChatRoomList(generics.ListAPIView):
     """
     queryset = ChatRoom.objects.all()
     serializer_class = ChatRoomSerializer
+    # Add this permission to ensure only authenticated users can see the room list.
+    permission_classes = [permissions.IsAuthenticated]
 
 class MessageList(generics.ListCreateAPIView):
     """

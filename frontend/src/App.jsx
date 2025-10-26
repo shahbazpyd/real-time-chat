@@ -3,9 +3,8 @@ import './App.css';
 import Login from './components/Login';
 import ChatRoomList from './components/ChatRoomList';
 import ChatView from './components/ChatView';
-
-// It's a good practice to store the API base URL in a constant or an environment variable.
-const API_URL = 'http://127.0.0.1:8000';
+import { getRooms } from './services/api';
+import 'bootstrap/dist/css/bootstrap.min.css'
 
 function App() {
   // Let's change `user` to hold a user object from the backend, not just a username string.
@@ -28,9 +27,9 @@ function App() {
 
       const fetchRooms = async () => {
         try {
-          // We'll need to send an authentication token once we implement proper login.
-          const response = await fetch(`${API_URL}/api/chat/rooms/`, { signal });
-          const data = await response.json();
+          // Use our new API service to fetch rooms with the access token.
+          // The user object now contains the tokens.
+          const data = await getRooms(user.tokens.access);
           setRooms(data);
           setError(null); // Clear previous errors
         } catch (error) {
@@ -62,6 +61,8 @@ function App() {
     setSelectedRoom(null);
     setRooms([]);
     localStorage.removeItem('chatUser');
+    // We could also call a /api/logout endpoint here if we implement it
+    // on the backend to blacklist the refresh token.
   };
 
   const handleSelectRoom = (room) => setSelectedRoom(room);
@@ -81,7 +82,7 @@ function App() {
           <div className="main-layout">
             <ChatRoomList rooms={rooms} onSelectRoom={handleSelectRoom} />
             {selectedRoom && (
-              <ChatView room={selectedRoom} user={user.username} />
+              <ChatView room={selectedRoom} user={user} />
             )}
           </div>
         </div>
