@@ -46,3 +46,11 @@ export const loginUser = (credentials) => {
 export const getRooms = (accessToken) => {
     return apiRequest('/api/chat/rooms/', { headers: { 'Authorization': `Bearer ${accessToken}` } });
 };
+
+export const createRoom = (roomData, accessToken) => {
+    return apiRequest('/api/chat/rooms/', {
+        method: 'POST',
+        headers: { 'Authorization': `Bearer ${accessToken}` },
+        body: JSON.stringify(roomData),
+    });
+};

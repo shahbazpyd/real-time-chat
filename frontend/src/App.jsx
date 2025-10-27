@@ -3,8 +3,8 @@ import './App.css';
 import Login from './components/Login';
 import ChatRoomList from './components/ChatRoomList';
 import ChatView from './components/ChatView';
-import { getRooms } from './services/api';
-import 'bootstrap/dist/css/bootstrap.min.css'
+import AddRoomForm from './components/AddRoomForm';
+import { getRooms, createRoom } from './services/api';
 
 function App() {
   // Let's change `user` to hold a user object from the backend, not just a username string.
@@ -67,6 +67,18 @@ function App() {
 
   const handleSelectRoom = (room) => setSelectedRoom(room);
 
+  const handleRoomCreated = async (roomData) => {
+    try {
+      const newRoom = await createRoom(roomData, user.tokens.access);
+      // Add the new room to the top of the list for immediate UI feedback
+      setRooms(prevRooms => [newRoom, ...prevRooms]);
+      setError(null);
+    } catch (error) {
+      console.error("Failed to create room:", error);
+      setError("Failed to create the room. Please try again.");
+    }
+  };
+
   return (
     <div className="app-container">
       <h1>Real-time Chat</h1>
@@ -80,7 +92,10 @@ function App() {
             <button onClick={handleLogout} className="logout-button">Logout</button>
           </div>
           <div className="main-layout">
-            <ChatRoomList rooms={rooms} onSelectRoom={handleSelectRoom} />
+            <div className="sidebar">
+              <ChatRoomList rooms={rooms} onSelectRoom={handleSelectRoom} />
+              <AddRoomForm onRoomCreated={handleRoomCreated} />
+            </div>
             {selectedRoom && (
               <ChatView room={selectedRoom} user={user} />
             )}

@@ -1,7 +1,8 @@
 from rest_framework import generics, permissions
 from django.shortcuts import get_object_or_404
+from django.contrib.auth.models import User
 from .models import ChatRoom, Message
-from .serializers import ChatRoomSerializer, MessageSerializer
+from .serializers import ChatRoomSerializer, MessageSerializer, UserSerializer
 
 # backend/chat/views.py
 
@@ -21,9 +22,9 @@ class RegisterView(generics.CreateAPIView):
     permission_classes = [AllowAny]
 
 
-class ChatRoomList(generics.ListAPIView):
+class ChatRoomList(generics.ListCreateAPIView):
     """
-    API view to retrieve a list of all chat rooms.
+    API view to retrieve a list of all chat rooms or create a new one.
     """
     queryset = ChatRoom.objects.all()
     serializer_class = ChatRoomSerializer
