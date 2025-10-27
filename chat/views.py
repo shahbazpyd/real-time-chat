@@ -1,15 +1,9 @@
 from rest_framework import generics, permissions
+from rest_framework.permissions import AllowAny
 from django.shortcuts import get_object_or_404
 from django.contrib.auth.models import User
 from .models import ChatRoom, Message
 from .serializers import ChatRoomSerializer, MessageSerializer, UserSerializer
-
-# backend/chat/views.py
-
-from django.contrib.auth.models import User
-from rest_framework import generics
-from rest_framework.permissions import AllowAny
-from .serializers import UserSerializer
 
 # CreateAPIView provides a post method handler for creating a model instance.
 class RegisterView(generics.CreateAPIView):

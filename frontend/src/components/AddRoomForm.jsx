@@ -2,9 +2,11 @@ import { useState } from 'react';
 import { Form, Button, InputGroup } from 'react-bootstrap';
 
 function AddRoomForm({ onRoomCreated }) {
+    console.log('AddRoomForm rendered');
     const [name, setName] = useState('');
 
     const handleSubmit = (e) => {
+        console.log('AddRoomForm handleSubmit called');
         e.preventDefault();
         if (!name.trim()) return;
         // We call the handler passed from App.jsx

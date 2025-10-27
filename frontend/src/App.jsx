@@ -68,8 +68,10 @@ function App() {
   const handleSelectRoom = (room) => setSelectedRoom(room);
 
   const handleRoomCreated = async (roomData) => {
+    console.log('handleRoomCreated called with roomData:', roomData);
     try {
       const newRoom = await createRoom(roomData, user.tokens.access);
+      console.log('New room created:', newRoom);
       // Add the new room to the top of the list for immediate UI feedback
       setRooms(prevRooms => [newRoom, ...prevRooms]);
       setError(null);

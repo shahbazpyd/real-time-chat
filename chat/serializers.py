@@ -2,11 +2,6 @@ from rest_framework import serializers
 from django.contrib.auth.models import User
 from .models import ChatRoom, Message
 
-# backend/chat/serializers.py
-
-from django.contrib.auth.models import User
-from rest_framework import serializers
-
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
@@ -27,19 +22,17 @@ class UserSerializer(serializers.ModelSerializer):
         )
         return user
 
-
-
-
-
 class MessageSerializer(serializers.ModelSerializer):
-    user = UserSerializer(read_only=True)
+    # Use a StringRelatedField to display the user's username.
+    # This is more efficient and avoids nesting the whole user object.
+    user = serializers.StringRelatedField(read_only=True)
 
     class Meta:
         model = Message
         fields = ['id', 'user', 'content', 'timestamp']
 
-
 class ChatRoomSerializer(serializers.ModelSerializer):
     class Meta:
         model = ChatRoom
         fields = ['id', 'name', 'slug']
+        read_only_fields = ['slug']

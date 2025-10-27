@@ -6,11 +6,11 @@ const API_URL = 'http://127.0.0.1:8000';
  * @param {object} options - The options for the fetch call (e.g., method, headers, body).
  * @returns {Promise<any>} - The JSON response from the API.
  */
-async function apiRequest(endpoint, options = {}) {
+async function apiRequest(endpoint, { headers: customHeaders, ...options } = {}) {
     const response = await fetch(`${API_URL}${endpoint}`, {
         headers: {
             'Content-Type': 'application/json',
-            ...options.headers,
+            ...customHeaders,
         },
         ...options,
     });
@@ -48,6 +48,7 @@ export const getRooms = (accessToken) => {
 };
 
 export const createRoom = (roomData, accessToken) => {
+    console.log('Creating room with data:', roomData, 'and token:', accessToken);
     return apiRequest('/api/chat/rooms/', {
         method: 'POST',
         headers: { 'Authorization': `Bearer ${accessToken}` },
