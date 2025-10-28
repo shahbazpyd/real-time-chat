@@ -36,18 +36,65 @@
   background-color: #5a5a5a;
 }
 
-.chat-view {
+/* .chat-view {
   flex-grow: 1;
-}
+} */
 
-.message-list {
+/* .message-list {
   height: 400px;
   overflow-y: auto;
   border: 1px solid #444;
   padding: 10px;
   margin-bottom: 10px;
+} */
+
+/* .message {
+  margin-bottom: 5px;
+} */
+/* Add these styles to frontend/src/App.css */
+
+.chat-view {
+    display: flex;
+    flex-direction: column;
+    height: 80vh; /* Or adjust as needed */
+    width: 100%;
 }
 
-.message {
-  margin-bottom: 5px;
+.messages-list {
+    flex-grow: 1;
+    overflow-y: auto;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    margin-bottom: 10px;
 }
+
+.my-message {
+    text-align: right;
+    background-color: #dcf8c6 !important;
+    border-color: #c8e6b8 !important;
+    margin-left: auto;
+    max-width: 70%;
+    width: fit-content;
+}
+
+.other-message {
+    text-align: left;
+    background-color: #f1f0f0 !important;
+    border-color: #e0e0e0 !important;
+    margin-right: auto;
+    max-width: 70%;
+    width: fit-content;
+}
+
+.list-group-item {
+    margin-bottom: 5px;
+    border-radius: 10px !important;
+}
+
+.timestamp {
+    font-size: 0.75em;
+    color: #888;
+    margin-top: 5px;
+}
+

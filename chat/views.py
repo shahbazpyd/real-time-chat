@@ -31,7 +31,7 @@ class MessageList(generics.ListCreateAPIView):
     """
     serializer_class = MessageSerializer
     # Only authenticated users can create messages, but anyone can read them.
-    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+    permission_classes = [permissions.IsAuthenticated]
 
     def get_queryset(self):
         """

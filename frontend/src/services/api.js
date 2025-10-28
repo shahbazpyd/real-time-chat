@@ -55,3 +55,17 @@ export const createRoom = (roomData, accessToken) => {
         body: JSON.stringify(roomData),
     });
 };
+
+export const getMessages = (roomSlug, accessToken) => {
+    return apiRequest(`/api/chat/rooms/${roomSlug}/messages/`, {
+        headers: { 'Authorization': `Bearer ${accessToken}` },
+    });
+};
+
+export const postMessage = (roomSlug, content, accessToken) => {
+    return apiRequest(`/api/chat/rooms/${roomSlug}/messages/`, {
+        method: 'POST',
+        headers: { 'Authorization': `Bearer ${accessToken}` },
+        body: JSON.stringify({ content }),
+    });
+};
