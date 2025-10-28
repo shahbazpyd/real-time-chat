@@ -16,10 +16,12 @@ function Login({ onLogin }) {
         setError(null);
         try {
             const data = await loginUser({ username, password });
+            console.log('Login successful:', data);
             const user = {
-                username: jwtDecode(data.access).username,
+                username: username,
                 tokens: data,
             };
+            console.log('User object:', user);
             onLogin(user);
         } catch (err) {
             setError(err.message || 'Login failed. Please check your credentials.');

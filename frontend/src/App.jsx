@@ -5,6 +5,8 @@ import ChatRoomList from './components/ChatRoomList';
 import ChatView from './components/ChatView';
 import AddRoomForm from './components/AddRoomForm';
 import { getRooms, createRoom } from './services/api';
+import 'bootstrap/dist/css/bootstrap.min.css'
+import { Form, Button, InputGroup } from 'react-bootstrap';
 
 function App() {
   // Let's change `user` to hold a user object from the backend, not just a username string.
@@ -20,6 +22,7 @@ function App() {
   useEffect(() => {
     // Only fetch rooms if the user is logged in
     if (user) {
+      console.log('Fetching rooms for user:', user);
       // Using AbortController is a good practice to cancel fetch requests
       // if the component unmounts before the request is complete.
       const controller = new AbortController();
@@ -35,7 +38,10 @@ function App() {
         } catch (error) {
           if (error.name !== 'AbortError') {
             console.error("Failed to fetch rooms:", error);
-            setError("Failed to fetch chat rooms. Please try again later.");
+            // If fetching rooms fails, it's likely an auth issue (e.g., expired token).
+            // Log the user out to force a new login.
+            setError("Your session may have expired. Please log in again.");
+            handleLogout();
           }
         }
       };
@@ -51,6 +57,7 @@ function App() {
 
   // This will be updated to handle a full user object from our backend.
   const handleLogin = (userData) => {
+    console.log('handleLogin called with userData:', userData);
     setUser(userData);
     // Persist user data in localStorage to keep them logged in on refresh.
     localStorage.setItem('chatUser', JSON.stringify(userData));
@@ -91,7 +98,7 @@ function App() {
         <div className="chat-container">
           <div className="welcome-header">
             <h2>Welcome, {user.username}!</h2>
-            <button onClick={handleLogout} className="logout-button">Logout</button>
+            <Button variant="danger" onClick={handleLogout} className="logout-button">Logout</Button>
           </div>
           <div className="main-layout">
             <div className="sidebar">

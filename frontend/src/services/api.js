@@ -14,7 +14,7 @@ async function apiRequest(endpoint, { headers: customHeaders, ...options } = {})
         },
         ...options,
     });
-
+    console.log('API Response:', response);
     if (!response.ok) {
         const errorData = await response.json().catch(() => ({})); // Catch if the error response is not JSON
         const errorMessage = errorData.detail || `HTTP error! status: ${response.status}`;
@@ -37,6 +37,7 @@ export const registerUser = (userData) => {
 };
 
 export const loginUser = (credentials) => {
+    console.log('Logging in with credentials:', credentials);
     return apiRequest('/api/token/', {
         method: 'POST',
         body: JSON.stringify(credentials),

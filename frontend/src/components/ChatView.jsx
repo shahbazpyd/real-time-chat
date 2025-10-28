@@ -3,6 +3,8 @@ import { Form, Button, InputGroup, ListGroup, Alert } from 'react-bootstrap';
 import { getMessages } from '../services/api';
 
 function ChatView({ room, user }) {
+    console.log('room:', room);
+    console.log('user:', user);
     const [messages, setMessages] = useState([]);
     const [newMessage, setNewMessage] = useState('');
     const [error, setError] = useState(null);
@@ -104,17 +106,20 @@ function ChatView({ room, user }) {
             <div className="messages-list">
                 {error && <Alert variant="danger">{error}</Alert>}
                 <ListGroup>
-                    {messages.map((msg) => (
-                        <ListGroup.Item
-                            key={msg.id}
-                            className={msg.user === user.username ? 'my-message' : 'other-message'}
-                        >
-                            <strong>{msg.user}:</strong> {msg.content}
-                            <div className="timestamp">
-                                {new Date(msg.timestamp).toLocaleTimeString()}
+                    {messages.map((msg) => {
+                        const messageClass = msg.user === user.username ? 'my-message' : 'other-message';
+                        console.log('msg:',msg)
+                        console.log("user:",user)
+                        return (
+                            // Wrapper div to allow alignment within the ListGroup
+                            <div key={msg.id} className={`message-wrapper ${messageClass}-wrapper`}>
+                                <ListGroup.Item className={messageClass}>
+                                    <strong>{msg.user}:</strong> {msg.content}
+                                    <div className="timestamp">{new Date(msg.timestamp).toLocaleTimeString()}</div>
+                                </ListGroup.Item>
                             </div>
-                        </ListGroup.Item>
-                    ))}
+                        );
+                    })}
                     <div ref={messagesEndRef} />
                 </ListGroup>
             </div>
