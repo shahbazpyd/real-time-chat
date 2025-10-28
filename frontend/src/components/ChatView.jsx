@@ -38,26 +38,21 @@ function ChatView({ room, user }) {
             // Note: Use 'ws' for http and 'wss' for https
             const wsUrl = `ws://127.0.0.1:8000/ws/chat/${room.slug}/?token=${user.tokens.access}`;
             const socket = new WebSocket(wsUrl);
+            console.log('socket:', socket);
             socketRef.current = socket;
 
             socket.onopen = () => {
+                console.log('WebSocket connection opened');
                 console.log(`WebSocket connected to room: ${room.name}`);
                 setError(null);
             };
 
-            socket.onmessage = (e) => {
-                const data = JSON.parse(e.data);
-                // The backend consumer sends messages with a 'content' key,
-                // but our MessageSerializer sends a list with 'user', 'content', etc.
-                // We'll normalize the incoming WebSocket message to match our state structure.
-                const incomingMessage = {
-                    id: data.id,
-                    user: data.user,
-                    content: data.content, // The consumer uses 'message' key for content
-                    timestamp: data.timestamp,
-                };
-                console.log('Received message:', incomingMessage);
-                setMessages(prevMessages => [...prevMessages, incomingMessage]);
+            socket.onmessage = (ee) => {
+                console.log('WebSocket message received:', ee.data);
+                const data = JSON.parse(ee.data);
+                // The backend now sends a consistent message object.
+                console.log('Received message:', data);
+                setMessages((prevMessages) => [...prevMessages, data]);
             };
 
             socket.onerror = (e) => {
@@ -92,6 +87,7 @@ function ChatView({ room, user }) {
             console.log('Sending message:', newMessage);
             socketRef.current.send(JSON.stringify({
                 'message': newMessage
+                'message': newMessage // The consumer expects 'message' as the key
             }));
             setNewMessage('');
         } else {

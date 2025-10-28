@@ -33,6 +33,7 @@ function App() {
           // Use our new API service to fetch rooms with the access token.
           // The user object now contains the tokens.
           const data = await getRooms(user.tokens.access);
+          console.log('Fetched rooms:', data);
           setRooms(data);
           setError(null); // Clear previous errors
         } catch (error) {

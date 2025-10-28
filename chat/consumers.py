@@ -8,8 +8,11 @@ from rest_framework_simplejwt.exceptions import InvalidToken, TokenError
 
 class ChatConsumer(AsyncWebsocketConsumer):
     async def connect(self):
+        print("self:",self)
         self.room_slug = self.scope['url_route']['kwargs']['room_slug']
         self.room_group_name = f"chat_{self.room_slug}"
+        print(f"WebSocket connecting to room {self.room_slug}")
+
 
         # Authenticate user from WebSocket scope
         self.user = await self.get_authenticated_user()
@@ -32,7 +35,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
             self.room_group_name,
             self.channel_name
         )
-        print(f"WebSocket disconnected for user {self.user.username} from room {self.room_slug}")
+        # print(f"WebSocket disconnected for user {self.user.username} from room {self.room_slug}")
 
     async def receive(self, text_data):
         print(f"Received message from WebSocket: {text_data}")
@@ -54,7 +57,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
             self.room_group_name,
             {
                 'type': 'chat_message', # This calls the chat_message method below
-                'message': message_obj['content'],
+                'content': message_obj['content'],
                 'user': message_obj['user'],
                 'timestamp': message_obj['timestamp'],
                 'id': message_obj['id']
@@ -66,17 +69,17 @@ class ChatConsumer(AsyncWebsocketConsumer):
         """
         Receive message from room group and send it to WebSocket.
         """
-        message = event['message']
+        content = event['content']
         user = event['user']
         timestamp = event['timestamp']
         message_id = event['id']
-        print(f"Sending message to WebSocket: {message}")
+        print(f"Sending message to WebSocket: {content}")
 
         # Send message to WebSocket
         await self.send(text_data=json.dumps({
             'id': message_id,
             'user': user,
-            'content': message,
+            'content': content,
             'timestamp': timestamp,
         }))
 

@@ -1,6 +1,9 @@
 import PropTypes from 'prop-types';
 
 function ChatRoomList({ rooms, onSelectRoom }) {
+  console.log('ChatRoomList rendered');
+  console.log('rooms:', rooms);
+  console.log('onSelectRoom:', onSelectRoom);
   return (
     <div className="room-list">
       <h3>Chat Rooms</h3>
