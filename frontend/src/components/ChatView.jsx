@@ -86,7 +86,6 @@ function ChatView({ room, user }) {
         if (socketRef.current && socketRef.current.readyState === WebSocket.OPEN) {
             console.log('Sending message:', newMessage);
             socketRef.current.send(JSON.stringify({
-                'message': newMessage
                 'message': newMessage // The consumer expects 'message' as the key
             }));
             setNewMessage('');
