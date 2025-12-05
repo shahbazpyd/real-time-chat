@@ -1,0 +1,46 @@
+services:
+  # 1. A PostgreSQL database
+  - type: pserv
+    name: chat-database
+    plan: free # Free tier for PostgreSQL
+    postgres:
+      version: "14"
+
+  # 2. The Django Backend
+  - type: web
+    name: chat-backend
+    plan: free # Free tier for web services
+    runtime: python
+    buildCommand: "pip install -r requirements.txt"
+    startCommand: "sh -c 'python manage.py migrate && daphne -b 0.0.0.0 -p $PORT backend.asgi:application'"
+    rootDir: backend
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.10.12
+      - key: DATABASE_URL
+        fromDatabase:
+          name: chat-database
+          property: connectionString
+      - key: DJANGO_ALLOWED_HOSTS
+        fromService:
+          type: web
+          name: chat-frontend
+          property: host
+      - key: WEBSOCKET_URL # For the frontend to connect to
+        fromService:
+          type: web
+          name: chat-backend
+          property: host
+
+  # 3. The React Frontend
+  - type: web
+    name: chat-frontend
+    plan: free
+    runtime: static
+    buildCommand: "npm install && npm run build"
+    staticPublishPath: dist
+    rootDir: frontend
+    routes:
+      - type: rewrite
+        source: /api/*
+        destination: https://chat-backend.onrender.com/api/* # Make sure backend name matches
