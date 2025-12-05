@@ -3,7 +3,8 @@ services:
   - type: pserv
     name: chat-database
     plan: free # Free tier for PostgreSQL
-    postgres: postgresql://real_time_chat_db_b6c1_user:WcmOKdAhemUeRRNN4olQu8vOpDL6glbe@dpg-d4pe0me3jp1c7395iilg-a/real_time_chat_db_b6c1
+    postgres:
+      version: "14"
 
   # 2. The Django Backend
   - type: web
