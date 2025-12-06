@@ -1,13 +1,12 @@
-services:
-  # 1. A PostgreSQL database
-  - type: psql
-    name: chat-database
-    plan: free # Free tier for PostgreSQL
+databases:
+  - name: chat-database # 1. A PostgreSQL database
+    plan: free
     postgresMajorVersion: 14
-    ipAllowList: [] # Allow access from all services in the account
+    ipAllowList: [] # Allow access from all services in the account.
 
+services:
   # 2. The Django Backend:
-  - type: web
+  - type: web # This is a web service
     name: chat-backend
     plan: free # Free tier for web services
     runtime: python
@@ -33,7 +32,7 @@ services:
           property: host
 
   # 3. The React Frontend
-  - type: web
+  - type: web # This is a web service
     name: chat-frontend
     plan: free
     runtime: static
