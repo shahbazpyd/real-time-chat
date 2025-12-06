@@ -1,5 +1,5 @@
 databases:
-  - name: chat-database # 1. A PostgreSQL database
+  - name: real-time-chat-db # 1. A PostgreSQL database
     plan: free
     postgresMajorVersion: 14
     ipAllowList: [] # Allow access from all services in the account.
@@ -32,9 +32,8 @@ services:
           property: host
 
   # 3. The React Frontend
-  - type: web # This is a web service
+  - type: static_site # Correct type for a static site
     name: chat-frontend
-    runtime: static
     buildCommand: "npm install && npm run build"
     staticPublishPath: dist
     rootDir: frontend
