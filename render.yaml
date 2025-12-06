@@ -34,7 +34,6 @@ services:
   # 3. The React Frontend
   - type: web # This is a web service
     name: chat-frontend
-    plan: free
     runtime: static
     buildCommand: "npm install && npm run build"
     staticPublishPath: dist
