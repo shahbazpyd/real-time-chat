@@ -34,9 +34,8 @@ services:
   # 3. The React Frontend
   - type: static_site # Correct type for a static site
     name: chat-frontend
-    buildCommand: "npm install && npm run build"
+    buildCommand: "npm --prefix frontend install && npm --prefix frontend run build"
     staticPublishPath: dist
-    rootDir: frontend
     routes:
       - type: rewrite
         source: /api/*
