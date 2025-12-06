@@ -13,7 +13,8 @@ services:
     buildCommand: "pip install -r requirements.txt"
     startCommand: "sh -c 'python manage.py migrate && daphne -b 0.0.0.0 -p $PORT backend.asgi:application'"
     rootDir: backend
-    previews: true # Enable previews for this service (and its database)
+    previews:
+      enabled: true # Enable previews for this service (and its database)
     envVars:
       - key: PYTHON_VERSION
         value: 3.10.12
