@@ -31,11 +31,12 @@ services:
           name: chat-backend
           property: host
 
-  # 3. The React Frontend
-  - type: static_site # Correct type for a static site
-    name: chat-frontend
-    buildCommand: "npm --prefix frontend install && npm --prefix frontend run build"
+staticSites:
+  - name: chat-frontend
+    buildCommand: "npm install && npm run build"
+    rootDir: frontend
     staticPublishPath: dist
+    name: chat-frontend
     routes:
       - type: rewrite
         source: /api/*
