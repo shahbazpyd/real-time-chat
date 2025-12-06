@@ -3,6 +3,7 @@ databases:
     plan: free
     postgresMajorVersion: 14
     ipAllowList: [] # Allow access from all services in the account.
+    previews: enabled # Enable database previews
 
 services:
   # 2. The Django Backend:
@@ -39,4 +40,7 @@ staticSites:
     routes:
       - type: rewrite
         source: /api/*
-        destination: https://chat-backend.onrender.com/api/* # Make sure backend name matches
+        destination:
+          fromService:
+            type: web
+            name: chat-backend
