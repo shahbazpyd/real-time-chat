@@ -44,3 +44,4 @@ staticSites:
           fromService:
             type: web
             name: chat-backend
+            property: url # Add the property to get the base URL
