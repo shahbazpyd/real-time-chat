@@ -22,9 +22,9 @@ services:
           property: connectionString
       - key: DJANGO_ALLOWED_HOSTS
         fromService:
-          type: web
-          name: chat-frontend
-          property: host
+          type: web # The backend service itself
+          name: chat-backend
+          property: host # Use the backend's own host
       - key: WEBSOCKET_URL # For the frontend to connect to
         fromService:
           type: web
@@ -36,7 +36,6 @@ staticSites:
     buildCommand: "npm install && npm run build"
     rootDir: frontend
     staticPublishPath: dist
-    name: chat-frontend
     routes:
       - type: rewrite
         source: /api/*
