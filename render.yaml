@@ -1,5 +1,5 @@
 databases:
-  - name: real-time-chat-db # 1. A PostgreSQL database
+  - name: chat-database # 1. A PostgreSQL database
     plan: free
     postgresMajorVersion: 14
     ipAllowList: [] # Allow access from all services in the account.
