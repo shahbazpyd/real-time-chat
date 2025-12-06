@@ -1,12 +1,12 @@
 services:
   # 1. A PostgreSQL database
-  - type: pserv
+  - type: psql
     name: chat-database
     plan: free # Free tier for PostgreSQL
-    postgres:
-      version: "14"
+    postgresMajorVersion: 14
+    ipAllowList: [] # Allow access from all services in the account
 
-  # 2. The Django Backend
+  # 2. The Django Backend:
   - type: web
     name: chat-backend
     plan: free # Free tier for web services
